@@ -1,8 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
-  scramble();
+  scrambleLetters();
+  scrambleTitle();
 });
 
-getWidth = () => {
+const shuffle = (array) => {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+};
+
+const getWidth = () => {
   return Math.max(
     document.body.scrollWidth,
     document.documentElement.scrollWidth,
@@ -12,7 +33,7 @@ getWidth = () => {
   );
 };
 
-getHeight = () => {
+const getHeight = () => {
   return Math.max(
     document.body.scrollHeight,
     document.documentElement.scrollHeight,
@@ -26,7 +47,7 @@ const remToPixels = (rem) => {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 };
 
-const scramble = () => {
+const scrambleLetters = () => {
   const documentPadding = remToPixels(5);
   const letters = document.querySelectorAll(".letter");
   const positionMap = {};
@@ -42,4 +63,11 @@ const scramble = () => {
     letter.style.left = `${x}px`;
     letter.style.top = `${y}px`;
   });
+};
+
+const scrambleTitle = () => {
+  const letters = ["p", "o", "o", "p", "i", "e", "s"];
+  const shuffled = shuffle(letters);
+  const title = shuffled.join("");
+  document.title = title;
 };
